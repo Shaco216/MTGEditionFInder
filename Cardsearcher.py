@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 cardname = ""
+soup = ""
 
 def scrape_for_card(cardname):
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
@@ -24,9 +25,32 @@ def scrape_for_card(cardname):
     req = requests.get(link, headers=headers)
     soup = BeautifulSoup(req.content, "html.parser")
     print(soup)
+    Expansionlist = get_Expansion_from_Soup(soup)
+
+    print("Cardname: " + cardname + "\nExpansionlist")
+    print(Expansionlist)
+
 
 def get_Expansion_from_Soup(soup):
-    pass
+    links = []
+    Substring = "Expansions"
+
+    for link in soup.findAll('a'):
+        links.append(link.get('href'))
+
+    #checking if list(links) contains a Substring
+    Expansionlist = [link for link in links if Substring in str(link)]
+    #https://www.kite.com/python/answers/how-to-check-if-a-list-contains-a-substring-in-python#:~:text=Use%20any()%20to%20check,the%20list%20contains%20the%20substring.&text=Alternatively%2C%20use%20a%20list%20comprehension,element%20that%20contains%20the%20substring.
+    #WICHTIG: in dem link www.kite.com/... wird nicht erwähnt, dass (in diesem fall) link kein string ist und deshalb nicht mit einem substring
+    #verglichen werden kann! deshalb str(link) (s. https://stackoverflow.com/questions/47464211/what-does-the-x-for-x-in-syntax-mean )
+
+    Expansions = []
+    for Expansion in Expansionlist:
+        Expansion = str(Expansion).replace("/de/Magic/Expansions/","")
+        Expansions.append(Expansion)
+
+    return Expansions
 
 if __name__ == "__main__":
     scrape_for_card(cardname)
+    get_Expansion_from_Soup(soup)

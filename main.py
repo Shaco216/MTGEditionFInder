@@ -4,6 +4,7 @@ from tkinter import *
 
 #variablen
 Expansionlist = []
+Expansions_till_14 = []
 
 #Mainwindow
 Mainwindow = Tk()
@@ -11,6 +12,8 @@ Mainwindow.title("MTGEditionFInder")
 
 #Functions
 def show_info(cardname, Expansionlist):
+    #Expansions_till_14 = [] gehört zu lösung 1
+
     # variable
     cardnamevariable = StringVar()
     expansionsvariable = StringVar()
@@ -19,7 +22,7 @@ def show_info(cardname, Expansionlist):
     Expansionlist = get_Expansion_from_Soup(get_soup(cardname))
 
     cardnamevariable.set(cardname)
-    expansionsvariable.set(str(Expansionlist))
+
     # Labels des Mainwindows
     LabelCardname_plaintext = Label(master=Mainwindow, text="cardname", width=30)
     LabelCardname_plaintext.pack()
@@ -30,8 +33,23 @@ def show_info(cardname, Expansionlist):
     LabelExpansions_plaintext = Label(master=Mainwindow, text="Expansions", width=30)
     LabelExpansions_plaintext.pack()
 
+    expansionsvariable.set(str(Expansionlist))
     LabelExpansions = Label(master=Mainwindow, textvariable=expansionsvariable)
     LabelExpansions.pack()
+
+    #lösung 1 funktioniert nicht
+    #for i in range(len(Expansionlist)):
+    #    #only 14 items
+    #    if i % 14 and not i == 0:
+    #        if len(Expansions_till_14) > 0:
+    #            expansionsvariable.set(Expansions_till_14)
+    #            LabelExpansions = Label(master=Mainwindow, textvariable=expansionsvariable)
+    #            LabelExpansions.pack()
+    #        Expansions_till_14 = []
+    #    else:
+    #        Expansions_till_14.append(Expansionlist[i])
+
+
 
 
 #buttons and bars

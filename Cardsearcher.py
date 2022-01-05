@@ -1,6 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
+import tkinter as tk
+from tkinter import *
 
+#global variables #TODO: hier muss noch getüftelt werden weil iwi das label sich nicht verändert
+global cardnamevariable
+cardnamevariable = StringVar()
+cardnamevariable = "test"
+cardnamevariable.set("hello")
+
+#local variable
 cardname = ""
 soup = ""
 
@@ -30,6 +39,9 @@ def scrape_for_card(cardname):
     print("Cardname: " + cardname + "\nExpansionlist")
     print(Expansionlist)
 
+    #cardname wird als Stringvar für das label cardname gespeichert
+
+    cardnamevariable.set(cardname)
 
 def get_Expansion_from_Soup(soup):
     links = []
@@ -50,6 +62,7 @@ def get_Expansion_from_Soup(soup):
         Expansions.append(Expansion)
 
     return Expansions
+
 
 if __name__ == "__main__":
     scrape_for_card(cardname)

@@ -3,32 +3,52 @@ from bs4 import BeautifulSoup
 import tkinter as tk
 from tkinter import *
 
-#global variables #TODO: hier muss noch getüftelt werden weil iwi das label sich nicht verändert
-global cardnamevariable
-cardnamevariable = StringVar()
-cardnamevariable = "test"
-cardnamevariable.set("hello")
-
+#global
+global soup
 #local variable
 cardname = ""
 soup = ""
 
-def scrape_for_card(cardname):
+def get_soup(cardname):
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
-    #to find exactly that card you need to use ["name"] in the searchbar of the website
-    #but the link will change [ to %5B and ] to %5D ""stay the same on addressbar but not in python ( see example )
-    #space will be a +
-    #example https://www.cardmarket.com/en/Magic/Products/Search?searchString=%5B%22sliverqueen%5B%22
+    # to find exactly that card you need to use ["name"] in the searchbar of the website
+    # but the link will change [ to %5B and ] to %5D ""stay the same on addressbar but not in python ( see example )
+    # space will be a +
+    # example https://www.cardmarket.com/en/Magic/Products/Search?searchString=%5B%22sliverqueen%5B%22
 
-    #cardname = '%5B"'+cardname+'"%5D'
+    # cardname = '%5B"'+cardname+'"%5D'
 
-    #probably the cardname is not correct because if i use a copyied link like this one https://www.cardmarket.com/de/Magic/Products/Search?searchString=sliverqueen it is working
-    #as i thought the lenght of cardname is 1 character to long
-    cardname = cardname[0:len(cardname)-1]
-    #problem solved with line 18
+    # probably the cardname is not correct because if i use a copyied link like this one https://www.cardmarket.com/de/Magic/Products/Search?searchString=sliverqueen it is working
+    # as i thought the lenght of cardname is 1 character to long
+    cardname = cardname[0:len(cardname) - 1]
+    # problem solved with line 18
+    link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=" + str(cardname)
+    print(link)
+    link = str(link)
+    req = requests.get(link, headers=headers)
+    soup = BeautifulSoup(req.content, "html.parser")
+    return soup
 
-    link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString="+str(cardname)
+def scrape_for_card(cardname):
+    global Expansionlist
+    soup = get_soup(cardname)
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
+    # to find exactly that card you need to use ["name"] in the searchbar of the website
+    # but the link will change [ to %5B and ] to %5D ""stay the same on addressbar but not in python ( see example )
+    # space will be a +
+    # example https://www.cardmarket.com/en/Magic/Products/Search?searchString=%5B%22sliverqueen%5B%22
+
+    # cardname = '%5B"'+cardname+'"%5D'
+
+    # probably the cardname is not correct because if i use a copyied link like this one https://www.cardmarket.com/de/Magic/Products/Search?searchString=sliverqueen it is working
+    # as i thought the lenght of cardname is 1 character to long
+    cardname = cardname[0:len(cardname) - 1]
+    # problem solved with line 18
+
+    link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=" + str(cardname)
     print(link)
     link = str(link)
     req = requests.get(link, headers=headers)
@@ -38,10 +58,6 @@ def scrape_for_card(cardname):
 
     print("Cardname: " + cardname + "\nExpansionlist")
     print(Expansionlist)
-
-    #cardname wird als Stringvar für das label cardname gespeichert
-
-    cardnamevariable.set(cardname)
 
 def get_Expansion_from_Soup(soup):
     links = []
@@ -63,7 +79,7 @@ def get_Expansion_from_Soup(soup):
 
     return Expansions
 
-
 if __name__ == "__main__":
+    get_soup(cardname)
     scrape_for_card(cardname)
     get_Expansion_from_Soup(soup)

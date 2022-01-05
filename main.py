@@ -30,8 +30,9 @@ def show_info(cardname, Expansionlist):
     LabelExpansions_plaintext = Label(master=Mainwindow, text="Expansions", width=30)
     LabelExpansions_plaintext.pack()
 
-    LabelCardname = Label(master=Mainwindow, textvariable=expansionsvariable)
-    LabelCardname.pack()
+    LabelExpansions = Label(master=Mainwindow, textvariable=expansionsvariable)
+    LabelExpansions.pack()
+
 
 #buttons and bars
 Cardsearchbar = Text(master= Mainwindow, name="please enter cardname", height=1, width=50)

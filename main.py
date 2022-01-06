@@ -33,23 +33,12 @@ def show_info(cardname, Expansionlist):
     LabelExpansions_plaintext = Label(master=Mainwindow, text="Expansions", width=30)
     LabelExpansions_plaintext.pack()
 
-    expansionsvariable.set(str(Expansionlist))
-    LabelExpansions = Label(master=Mainwindow, textvariable=expansionsvariable)
-    LabelExpansions.pack()
-
-    #lösung 1 funktioniert nicht
-    #for i in range(len(Expansionlist)):
-    #    #only 14 items
-    #    if i % 14 and not i == 0:
-    #        if len(Expansions_till_14) > 0:
-    #            expansionsvariable.set(Expansions_till_14)
-    #            LabelExpansions = Label(master=Mainwindow, textvariable=expansionsvariable)
-    #            LabelExpansions.pack()
-    #        Expansions_till_14 = []
-    #    else:
-    #        Expansions_till_14.append(Expansionlist[i])
-
-
+    #expansions as a listbox
+    Expansionlistbox = Listbox(Mainwindow)
+    Expansionlistbox.pack()
+    #fill list with items
+    for item in Expansionlist:
+        Expansionlistbox.insert(END,item)
 
 
 #buttons and bars

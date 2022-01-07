@@ -9,7 +9,15 @@ global soup
 cardname = ""
 soup = ""
 
+def replace_space_with_plus_cardname(cardname):
+    # leerzeichen abfangen/ umwandeln in +
+    space = " "
+    if space in cardname:
+        cardname = cardname.replace(" ", "+")
+    return cardname
+
 def get_soup(cardname):
+
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
     # to find exactly that card you need to use ["name"] in the searchbar of the website
@@ -23,15 +31,20 @@ def get_soup(cardname):
     # as i thought the lenght of cardname is 1 character to long
     cardname = cardname[0:len(cardname) - 1]
     # problem solved with line 18
+    cardname = replace_space_with_plus_cardname(cardname)
     link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=" + str(cardname)
     print(link)
     link = str(link)
     req = requests.get(link, headers=headers)
     soup = BeautifulSoup(req.content, "html.parser")
+    print(soup)
     return soup
 
 def scrape_for_card(cardname):
     global Expansionlist
+
+    cardname = replace_space_with_plus_cardname(cardname)
+
     soup = get_soup(cardname)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
@@ -53,7 +66,7 @@ def scrape_for_card(cardname):
     link = str(link)
     req = requests.get(link, headers=headers)
     soup = BeautifulSoup(req.content, "html.parser")
-    print(soup)
+
     Expansionlist = get_Expansion_from_Soup(soup)
 
     print("Cardname: " + cardname + "\nExpansionlist")
@@ -83,3 +96,4 @@ if __name__ == "__main__":
     get_soup(cardname)
     scrape_for_card(cardname)
     get_Expansion_from_Soup(soup)
+    replace_space_with_plus_cardname(cardname)

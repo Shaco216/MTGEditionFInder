@@ -1,6 +1,7 @@
 from Cardsearcher import *
 import tkinter as tk
 from tkinter import *
+from Pricesearcher import *
 
 #variablen
 Expansionlist = []
@@ -19,7 +20,8 @@ def show_info(cardname, Expansionlist):
     expansionsvariable = StringVar()
     #cardname wird als Stringvar für das label cardname gespeichert
     #Die Variablen, die in der GUI verwendet werden müssen zwingend in der selben datei sein
-    Expansionlist = get_Expansion_from_Soup(get_soup(cardname))
+    soup = get_soup(cardname)
+    Expansionlist = get_Expansion_from_Soup(soup)
 
     cardnamevariable.set(cardname)
 
@@ -33,12 +35,18 @@ def show_info(cardname, Expansionlist):
     LabelExpansions_plaintext = Label(master=Mainwindow, text="Expansions", width=30)
     LabelExpansions_plaintext.pack()
 
+    #search prices
+    editionurls = get_all_editionurls(soup)
+    print(editionurls)
+
     #expansions as a listbox
     Expansionlistbox = Listbox(Mainwindow)
     Expansionlistbox.pack()
     #fill list with items
     for item in Expansionlist:
         Expansionlistbox.insert(END,item)
+
+
 
 
 #buttons and bars

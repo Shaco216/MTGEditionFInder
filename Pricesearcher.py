@@ -2,6 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 
 soup = ""
+Expansionurls = []
+cardname = ""
+filteroption = 0
+languageoption = 0
+gradingoption = 0
 
 def get_all_editionurls(soup):
     urls = []
@@ -70,3 +75,4 @@ def get_prices_from_all_editions(Expansionurls, cardname, filteroption, language
 
 if __name__ == "__main__":
     get_all_editionurls(soup)
+    get_prices_from_all_editions(Expansionurls, cardname, filteroption, languageoption, gradingoption)

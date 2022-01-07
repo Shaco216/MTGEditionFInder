@@ -64,8 +64,8 @@ def scrape_for_card(cardname):
     link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=" + str(cardname)
     print(link)
     link = str(link)
-    req = requests.get(link, headers=headers)
-    soup = BeautifulSoup(req.content, "html.parser")
+    #req = requests.get(link, headers=headers)
+    #soup = BeautifulSoup(req.content, "html.parser")
 
     Expansionlist = get_Expansion_from_Soup(soup)
 

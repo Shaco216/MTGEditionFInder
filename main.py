@@ -38,13 +38,16 @@ def show_info(cardname, Expansionlist):
     # search prices
     Expansionurls = get_all_editionurls(soup)
     pricelist = get_prices_from_all_editions(Expansionurls, cardname, filteroption.get(), languageoption.get(), gradingoption.get())
-    print(Expansionurls)
+
+    # merge pricelist and expansionlist in one list
+    combined_list = combine_pricelist_and_expansionlist(pricelist,Expansionlist)
 
     # expansions as a listbox
     Expansionlistbox = Listbox(Mainwindow)
     Expansionlistbox.pack()
     #fill list with items
-    for item in Expansionlist:
+    #for item in Expansionlist:
+    for item in combined_list:
         Expansionlistbox.insert(END,item)
 
 #cardsearchbarLabel

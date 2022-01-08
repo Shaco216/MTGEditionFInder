@@ -8,6 +8,8 @@ cardname = ""
 filteroption = 0
 languageoption = 0
 gradingoption = 0
+pricelist = []
+expansionlist = []
 
 def get_all_editionurls(soup):
     urls = []
@@ -80,7 +82,16 @@ def get_prices_from_all_editions(Expansionurls, cardname, filteroption, language
     print(f"Pricelist: {pricelist}")
     return pricelist
 
+def combine_pricelist_and_expansionlist(pricelist,expansionlist):
+    combined_list = []
+    for price,expansion in pricelist, expansionlist:
+        newitem = expansion + " " + price
+        combined_list.append(newitem)
+    print(combined_list)
+    return combined_list
+
 
 if __name__ == "__main__":
     get_all_editionurls(soup)
     get_prices_from_all_editions(Expansionurls, cardname, filteroption, languageoption, gradingoption)
+    combine_pricelist_and_expansionlist(pricelist, expansionlist)

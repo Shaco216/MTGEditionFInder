@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from tkinter import *
 
 soup = ""
 Expansionurls = []
@@ -16,7 +17,8 @@ def get_all_editionurls(soup):
         urls.append(link.get('href'))
     Expansions = [link for link in urls if Substring in str(link)]
     for item in Expansions:
-        item = "https://www.cardmarket.com" + str(item)
+        item = "https://www.cardmarket.com/de/Magic/Products/Singles" + str(item)
+        item = item.replace("de/Magic/Expansions/","")
         Expansionurls.append(item)
     return Expansionurls
 
@@ -50,7 +52,7 @@ def get_prices_from_all_editions(Expansionurls, cardname, filteroption, language
     elif languageoption == 2:
         zusatzinfo = zusatzinfo + "language=1"
     elif languageoption == 3:
-        zusatzinfo = zusatzinfo +"language=1,3"
+        zusatzinfo = zusatzinfo + "language=1,3"
 
     #linkverbindung via &
     if languageoption > 0 and gradingoption > 0:
@@ -61,15 +63,21 @@ def get_prices_from_all_editions(Expansionurls, cardname, filteroption, language
     if gradingoption == 1:
         zusatzinfo = zusatzinfo + "minCondition=3"
 
+    print("zusatz: "+zusatzinfo)
+
     pricelist = []
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
     for expURL in Expansionurls:
-        fullURL = expURL + "/" + cardname + zusatzinfo
+        #cardname has an "return" at the end so it needs to be cut by one
+        fullURL = expURL + "/" + cardname[:-1] + zusatzinfo
+        print("Cardprizeurl: "+fullURL)
         req = requests.get(fullURL, headers=headers)
         soup = BeautifulSoup(req.content, "html.parser")
-        price = soup.find(class_='font-weight-bold color-primary small text-right text-nowrap').text
+        price = soup.find(class_='font-weight-bold color-primary small text-right text-nowrap')
+        price = price.text
         pricelist.append(price)
+    print(f"Pricelist: {pricelist}")
     return pricelist
 
 

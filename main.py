@@ -37,7 +37,7 @@ def show_info(cardname, Expansionlist):
 
     # search prices
     Expansionurls = get_all_editionurls(soup)
-    pricelist = get_prices_from_all_editions(Expansionurls, cardname, filteroption, languageoption, gradingoption)
+    pricelist = get_prices_from_all_editions(Expansionurls, cardname, filteroption.get(), languageoption.get(), gradingoption.get())
     print(Expansionurls)
 
     # expansions as a listbox
@@ -66,11 +66,11 @@ Filteroptions2.pack()
 # languageoptions
 languageoption = IntVar()
 languagelabel = Label(Mainwindow, text="Language").pack()
-Languageoptions1 = Radiobutton(Mainwindow, text="Lang-de", variable=languageoption, value=3)
+Languageoptions1 = Radiobutton(Mainwindow, text="Lang-de", variable=languageoption, value=1)
 Languageoptions1.pack()
-Languageoptions2 = Radiobutton(Mainwindow, text="Lang-en", variable=languageoption, value=4)
+Languageoptions2 = Radiobutton(Mainwindow, text="Lang-en", variable=languageoption, value=2)
 Languageoptions2.pack()
-Languageoptions3 = Radiobutton(Mainwindow, text="Lang-en&de", variable=languageoption, value=5)
+Languageoptions3 = Radiobutton(Mainwindow, text="Lang-en&de", variable=languageoption, value=3)
 Languageoptions3.pack()
 
 # gradingoption
@@ -79,8 +79,8 @@ GradingCheckbox = Checkbutton(Mainwindow, text="Cardgrading activated", variable
 GradingCheckbox.pack()
 
 #Findbutton
-Button_Submit = Button(master= Mainwindow, command= lambda: [scrape_for_card(Cardsearchbar.get("1.0", END)),show_info(Cardsearchbar.get("1.0", END), Expansionlist)], text="Find", height=1, width=5)
-Button_Submit.pack()
+Button_FInd = Button(master= Mainwindow, command= lambda: [scrape_for_card(Cardsearchbar.get("1.0", END)), show_info(Cardsearchbar.get("1.0", END), Expansionlist)], text="Find", height=1, width=5)
+Button_FInd.pack()
 
 mainloop()
 

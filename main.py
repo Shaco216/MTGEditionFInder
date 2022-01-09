@@ -13,6 +13,8 @@ Mainwindow.title("MTGEditionFInder")
 
 #Functions
 def show_info(cardname, Expansionlist):
+
+
     #Expansions_till_14 = [] gehört zu lösung 1
 
     # variable
@@ -43,7 +45,7 @@ def show_info(cardname, Expansionlist):
     combined_list = combine_pricelist_and_expansionlist(pricelist,Expansionlist)
 
     # expansions as a listbox
-    Expansionlistbox = Listbox(Mainwindow)
+    Expansionlistbox = Listbox(Mainwindow, width=50)
     Expansionlistbox.pack()
     #fill list with items
     #for item in Expansionlist:
@@ -60,7 +62,7 @@ Cardsearchbar.pack()
 # bonusoptions
 # filteroptions
 filteroption = IntVar()
-filterlabel = Label(Mainwindow, text="Filter").pack()
+filterlabel = Label(Mainwindow, text="Sellerlocation").pack()
 Filteroptions1 = Radiobutton(Mainwindow, text="Label-de", variable=filteroption, value=1)
 Filteroptions1.pack()
 Filteroptions2 = Radiobutton(Mainwindow, text="Label-en", variable=filteroption, value=2)
@@ -68,7 +70,7 @@ Filteroptions2.pack()
 
 # languageoptions
 languageoption = IntVar()
-languagelabel = Label(Mainwindow, text="Language").pack()
+languagelabel = Label(Mainwindow, text="Cardlanguage").pack()
 Languageoptions1 = Radiobutton(Mainwindow, text="Lang-de", variable=languageoption, value=1)
 Languageoptions1.pack()
 Languageoptions2 = Radiobutton(Mainwindow, text="Lang-en", variable=languageoption, value=2)

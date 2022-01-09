@@ -84,8 +84,8 @@ def get_prices_from_all_editions(Expansionurls, cardname, filteroption, language
 
 def combine_pricelist_and_expansionlist(pricelist,expansionlist):
     combined_list = []
-    for price,expansion in pricelist, expansionlist:
-        newitem = expansion + " " + price
+    for i in range(len(expansionlist)):
+        newitem = expansionlist[i] + " " + str(pricelist[i])
         combined_list.append(newitem)
     print(combined_list)
     return combined_list

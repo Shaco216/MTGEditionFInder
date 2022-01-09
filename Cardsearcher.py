@@ -32,8 +32,8 @@ def get_soup(cardname):
     cardname = cardname[0:len(cardname) - 1]
     # problem solved with line 18
     cardname = replace_space_with_plus_cardname(cardname)
-    link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=" + str(cardname)
-
+    link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=%5B" + str(cardname) + "%5D"
+    print(link)
     link = str(link)
     req = requests.get(link, headers=headers)
     soup = BeautifulSoup(req.content, "html.parser")

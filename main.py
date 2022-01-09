@@ -13,7 +13,9 @@ Mainwindow.title("MTGEditionFInder")
 
 #Functions
 def show_info(cardname, Expansionlist):
-
+    #new window
+    InfoWindow = Tk()
+    InfoWindow.title(cardname + "- info")
 
     #Expansions_till_14 = [] gehört zu lösung 1
 
@@ -28,13 +30,8 @@ def show_info(cardname, Expansionlist):
     cardnamevariable.set(cardname)
 
     # Labels des Mainwindows
-    LabelCardname_plaintext = Label(master=Mainwindow, text="cardname", width=30)
-    LabelCardname_plaintext.pack()
 
-    LabelCardname = Label(master=Mainwindow, textvariable=cardnamevariable, width=30)
-    LabelCardname.pack()
-
-    LabelExpansions_plaintext = Label(master=Mainwindow, text="Expansions", width=30)
+    LabelExpansions_plaintext = Label(master=InfoWindow, text="Expansions", width=30)
     LabelExpansions_plaintext.pack()
 
     # search prices
@@ -45,7 +42,7 @@ def show_info(cardname, Expansionlist):
     combined_list = combine_pricelist_and_expansionlist(pricelist,Expansionlist)
 
     # expansions as a listbox
-    Expansionlistbox = Listbox(Mainwindow, width=50)
+    Expansionlistbox = Listbox(InfoWindow, width=50)
     Expansionlistbox.pack()
     #fill list with items
     #for item in Expansionlist:

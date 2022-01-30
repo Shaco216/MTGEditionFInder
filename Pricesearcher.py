@@ -77,7 +77,10 @@ def get_prices_from_all_editions(Expansionurls, cardname, filteroption, language
         req = requests.get(fullURL, headers=headers)
         soup = BeautifulSoup(req.content, "html.parser")
         price = soup.find(class_='font-weight-bold color-primary small text-right text-nowrap')
-        price = price.text
+        try:
+            price = price.text
+        except:
+            print(price)
         pricelist.append(price)
     print(f"Pricelist: {pricelist}")
     return pricelist

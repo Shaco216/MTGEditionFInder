@@ -30,7 +30,6 @@ def show_info(cardname, Expansionlist):
     cardnamevariable.set(cardname)
 
     # Labels des Mainwindows
-
     LabelExpansions_plaintext = Label(master=InfoWindow, text="Expansions", width=30)
     LabelExpansions_plaintext.pack()
 

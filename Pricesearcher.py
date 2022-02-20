@@ -13,7 +13,14 @@ expansionlist = []
 tcg_option = 0
 
 def get_all_editionurls(soup, tcg_option):
-    print(f"tcg: {tcg_option}")
+    #just for testing
+    #aktueller zeitpunkt im vorgang - nach eingabe des suchkriteriums
+    #und enterdrücken (mehrere editionen der selben karte werden untereinander aufgeführt)
+    #TODO: need to find every name from the link of the class below
+    for link in soup.findAll('a'):#class_="col-12 col-md-8 px-2 flex-column"
+        #print(f"all class : {link}")
+        print(f"all hrefs : {link.get('href')}")
+
     urls = []
     Expansionurls = []
     Substring = "Expansions"

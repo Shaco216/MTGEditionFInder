@@ -13,6 +13,7 @@ Mainwindow.title("MTGEditionFInder")
 
 #Functions
 def show_info(cardname, Expansionlist):
+    #GUI Result Window
     #new window
     InfoWindow = Tk()
     InfoWindow.title(cardname + "- info")
@@ -24,17 +25,17 @@ def show_info(cardname, Expansionlist):
     expansionsvariable = StringVar()
     #cardname wird als Stringvar für das label cardname gespeichert
     #Die Variablen, die in der GUI verwendet werden müssen zwingend in der selben datei sein
-    soup = get_soup(cardname)
-    Expansionlist = get_Expansion_from_Soup(soup)
+    soup = get_soup(cardname, tcg_option.get())
+    Expansionlist = get_Expansion_from_Soup(soup, tcg_option.get())
 
     cardnamevariable.set(cardname)
 
-    # Labels des Mainwindows
+    # Labels des Mainwindows Cardsearchbar
     LabelExpansions_plaintext = Label(master=InfoWindow, text="Expansions", width=30)
     LabelExpansions_plaintext.pack()
 
     # search prices
-    Expansionurls = get_all_editionurls(soup)
+    Expansionurls = get_all_editionurls(soup, tcg_option.get())
     pricelist = get_prices_from_all_editions(Expansionurls, cardname, filteroption.get(), languageoption.get(), gradingoption.get())
 
     # merge pricelist and expansionlist in one list
@@ -47,6 +48,16 @@ def show_info(cardname, Expansionlist):
     #for item in Expansionlist:
     for item in combined_list:
         Expansionlistbox.insert(END,item)
+
+
+#GUI Mainprogramm
+
+#tcg-option
+tcg_option_label = Label(master=Mainwindow, text="Bitte Sammelkartenspiel auswählen:").pack()
+
+tcg_option = IntVar()
+tcg_option_mtg = Radiobutton(Mainwindow, text="MTG", variable=tcg_option, value=1).pack()
+tcg_option_yugioh = Radiobutton(Mainwindow, text="Yugioh", variable=tcg_option, value=2).pack()
 
 #cardsearchbarLabel
 cardsearchlabel = Label(master= Mainwindow, text="Bitte Kartenname eingeben:").pack()
@@ -76,11 +87,11 @@ Languageoptions3.pack()
 
 # gradingoption
 gradingoption = IntVar()
-GradingCheckbox = Checkbutton(Mainwindow, text="Cardgrading activated", variable=gradingoption)
+GradingCheckbox = Checkbutton(Mainwindow, text="Cardgrading excellent or higher", variable=gradingoption)
 GradingCheckbox.pack()
 
 #Findbutton
-Button_FInd = Button(master= Mainwindow, command= lambda: [scrape_for_card(Cardsearchbar.get("1.0", END)), show_info(Cardsearchbar.get("1.0", END), Expansionlist)], text="Find", height=1, width=5)
+Button_FInd = Button(master= Mainwindow, command= lambda: [scrape_for_card(Cardsearchbar.get("1.0", END),tcg_option.get()), show_info(Cardsearchbar.get("1.0", END), Expansionlist)], text="Find", height=1, width=5)
 Button_FInd.pack()
 
 mainloop()

@@ -10,8 +10,10 @@ languageoption = 0
 gradingoption = 0
 pricelist = []
 expansionlist = []
+tcg_option = 0
 
-def get_all_editionurls(soup):
+def get_all_editionurls(soup, tcg_option):
+    print(f"tcg: {tcg_option}")
     urls = []
     Expansionurls = []
     Substring = "Expansions"
@@ -19,8 +21,12 @@ def get_all_editionurls(soup):
         urls.append(link.get('href'))
     Expansions = [link for link in urls if Substring in str(link)]
     for item in Expansions:
-        item = "https://www.cardmarket.com/de/Magic/Products/Singles" + str(item)
-        item = item.replace("de/Magic/Expansions/","")
+        if tcg_option == 1:
+            item = "https://www.cardmarket.com/de/Magic/Products/Singles" + str(item)
+            item = item.replace("de/Magic/Expansions/", "")
+        elif tcg_option ==2:
+            item = "https://www.cardmarket.com/de/YuGiOh/Products/Singles" + str(item)
+            item = item.replace("de/YuGiOh/Expansions/", "")
         Expansionurls.append(item)
     return Expansionurls
 
@@ -95,6 +101,6 @@ def combine_pricelist_and_expansionlist(pricelist,expansionlist):
 
 
 if __name__ == "__main__":
-    get_all_editionurls(soup)
+    get_all_editionurls(soup, tcg_option)
     get_prices_from_all_editions(Expansionurls, cardname, filteroption, languageoption, gradingoption)
     combine_pricelist_and_expansionlist(pricelist, expansionlist)

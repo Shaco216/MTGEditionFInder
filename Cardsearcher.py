@@ -8,6 +8,7 @@ global soup
 #local variable
 cardname = ""
 soup = ""
+tcg_option = 0
 
 def replace_space_with_plus_cardname(cardname):
     # leerzeichen abfangen/ umwandeln in +
@@ -16,7 +17,7 @@ def replace_space_with_plus_cardname(cardname):
         cardname = cardname.replace(" ", "+")
     return cardname
 
-def get_soup(cardname):
+def get_soup(cardname, tcg_option):
 
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
@@ -32,7 +33,10 @@ def get_soup(cardname):
     cardname = cardname[0:len(cardname) - 1]
     # problem solved with line 18
     cardname = replace_space_with_plus_cardname(cardname)
-    link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=%5B" + str(cardname) + "%5D"
+    if tcg_option == 1:
+        link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=%5B" + str(cardname) + "%5D"
+    elif tcg_option == 2:
+        link = "https://www.cardmarket.com/de/YuGiOh/Products/Search?searchString=%5B" + str(cardname) + "%5D"
     print(link)
     link = str(link)
     req = requests.get(link, headers=headers)
@@ -40,12 +44,12 @@ def get_soup(cardname):
 
     return soup
 
-def scrape_for_card(cardname):
+def scrape_for_card(cardname, tcg_option):
     global Expansionlist
 
     cardname = replace_space_with_plus_cardname(cardname)
 
-    soup = get_soup(cardname)
+    soup = get_soup(cardname, tcg_option)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
@@ -60,19 +64,21 @@ def scrape_for_card(cardname):
     # as i thought the lenght of cardname is 1 character to long
     cardname = cardname[0:len(cardname) - 1]
     # problem solved with line 18
-
-    link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=" + str(cardname)
+    if tcg_option == 1:
+        link = "https://www.cardmarket.com/de/Magic/Products/Search?searchString=" + str(cardname)
+    elif tcg_option == 2:
+        link = "https://www.cardmarket.com/de/YuGiOh/Products/Search?searchString=" + str(cardname)
 
     link = str(link)
     #req = requests.get(link, headers=headers)
     #soup = BeautifulSoup(req.content, "html.parser")
 
-    Expansionlist = get_Expansion_from_Soup(soup)
+    Expansionlist = get_Expansion_from_Soup(soup, tcg_option)
 
     print("Cardname: " + cardname + "\nExpansionlist")
     print(Expansionlist)
 
-def get_Expansion_from_Soup(soup):
+def get_Expansion_from_Soup(soup, tcg_option):
     links = []
     Substring = "Expansions"
 
@@ -87,13 +93,16 @@ def get_Expansion_from_Soup(soup):
 
     Expansions = []
     for Expansion in Expansionlist:
-        Expansion = str(Expansion).replace("/de/Magic/Expansions/","")
+        if tcg_option == 1:
+            Expansion = str(Expansion).replace("/de/Magic/Expansions/","")
+        elif tcg_option == 2:
+            Expansion = str(Expansion).replace("/de/YuGiOh/Expansions/", "")
         Expansions.append(Expansion)
 
     return Expansions
 
 if __name__ == "__main__":
-    get_soup(cardname)
-    scrape_for_card(cardname)
-    get_Expansion_from_Soup(soup)
+    get_soup(cardname, tcg_option)
+    scrape_for_card(cardname, tcg_option)
+    get_Expansion_from_Soup(soup, tcg_option)
     replace_space_with_plus_cardname(cardname)
